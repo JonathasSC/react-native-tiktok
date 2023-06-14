@@ -1,9 +1,9 @@
 import { View, StyleSheet, Text } from "react-native";
 
-export function Search(){
+export function Inbox(){
     return (
         <View style={styles.container} >
-            <Text>Search</Text>
+            <Text>Inbox</Text>
         </View>
     )
 }
