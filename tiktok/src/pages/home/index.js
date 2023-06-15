@@ -5,9 +5,11 @@ import {
     Text,
     StatusBar,
     Platform,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from "react-native";
 
+import { useState , useRef } from "react";
 import { FeedItem } from "../../components/feedItem";
 
 export function Home(){
@@ -33,6 +35,15 @@ export function Home(){
         }
     ]
 
+    const {height: heightScreen} = Dimensions.get("screen")
+
+    const [showItem, setShowItem] = useState(feedItems[0])
+    const onViewRef = useRef(({ viewableItems }) => {
+        if (viewableItems && viewableItems.length > 0){
+            setShowItem(feedItems[viewableItems[0].index])
+        }
+    })
+
     return (
         <View style={styles.container}>
             <View style={styles.label}>
@@ -48,9 +59,20 @@ export function Home(){
 
             <FlatList
                 data={feedItems}
-                renderItem={({ item }) => <FeedItem data={item} />
-                }>
-            </FlatList>
+                renderItem={
+                    ({ item }) => 
+                        <FeedItem data={item} currentVisibleItem={showItem}/>
+                    }
+                onViewableItemsChanged={onViewRef.current}
+                snapToAlignment='center'
+                snapToInterval={heightScreen}
+                scrollEventThrottle={200}
+                decelerationRate={"fast"}
+                viewabilityConfig={{
+                    waitForInteraction: false,
+                    viewAreaCoveragePercentThreshold: 100
+                }}
+            />
         </View>
     )
 }
@@ -69,7 +91,7 @@ const styles = StyleSheet.create({
         top: 6,
         left: 0,
         right: 0,
-        marginTop: 
+        marginTop:
             Platform.OS === 'android' ? StatusBar.currentHeight+5 : 55,
         zIndex: 99,
     },

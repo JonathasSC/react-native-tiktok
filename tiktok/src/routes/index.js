@@ -5,7 +5,7 @@ import { Inbox } from "../pages/inbox";
 import { New } from "../pages/new";
 import { Search } from "../pages/search";
 import { Profile } from "../pages/profile";
-import { NewButton } from "../components/icons/newButton";
+import { NewButton } from "../components/icons/buttonNew";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
